@@ -17,7 +17,7 @@ export class PostService {
     @Inject(POST_MODEL) private postModel: Model<Post>,
     @Inject(COMMENT_MODEL) private commentModel: Model<Comment>,
     @Inject(REQUEST) private req: AuthenticatedRequest,
-  ) { }
+  ) {}
 
   findAll(keyword?: string, skip = 0, limit = 10): Observable<Post[]> {
     if (keyword) {
@@ -76,7 +76,7 @@ export class PostService {
 
   deleteById(id: string): Observable<Post> {
     return from(this.postModel.findOneAndDelete({ _id: id }).exec()).pipe(
-      mergeMap((p) => (p ? of(p.value) : EMPTY)),
+      mergeMap((p) => (p ? of(p?.id) : EMPTY)),
       throwIfEmpty(() => new NotFoundException(`post:$id was not found`)),
     );
     // const filter = { _id: id };
